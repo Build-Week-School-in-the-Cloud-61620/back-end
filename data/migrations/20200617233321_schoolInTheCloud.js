@@ -19,7 +19,7 @@ exports.up = function(knex) {
    tbl.string('time', 128).notNullable()
    tbl.string('password', 255).notNullable()
   })
-  .createTable('volunteer', tbl => {
+  .createTable('student', tbl => {
    tbl.increments();
    tbl.string( 'username', 128 ).notNullable().unique();
    tbl.string( 'name', 128 );
@@ -59,5 +59,10 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-  
+  return knex.schema
+   .dropTableIfExists('volunteer_tasks')
+   .dropTableIfExists('tasks')
+   .dropTableIfExists('student')
+   .dropTableIfExists('volunteer')
+   .dropTableIfExists('admin')
 };
