@@ -1,7 +1,7 @@
 exports.seed = function (knex) {
   return knex("student").insert([
     {
-      username: "professor_volunteer",
+      username: "student 5",
       name: "Sal",
       email: "sal@cloudschool.com",
       role: "student",

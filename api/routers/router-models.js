@@ -86,7 +86,7 @@ function removeTasks(id) {
 function addStudent(insert) {
 	return db("student")
 		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.then((id) => getStudentById(id[0]));
 }
 
 function getStudentById(id) {
