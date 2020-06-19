@@ -2,7 +2,7 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const secret = require('../../config/secrets');
+const secret = require('../config/secrets');
 
 const {isValid} = require('./valid-check');
 
@@ -13,7 +13,7 @@ router.post('/register', (req,res)=>{
 })
 
 router.post('/login', (req,res)=>{
-    
+
 })
 
 

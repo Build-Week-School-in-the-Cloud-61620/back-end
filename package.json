@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server":"nodemon index.js",
-    "test": "jest --watch"
+    "start":"node index.js",
+    "server": "nodemon index.js",
+    "test": "cross-env DB_ENV=testing jest --watch"
   },
-  "jest":{
-    "testEnvironment":"node"
+  "jest": {
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",
@@ -33,14 +34,9 @@
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "cross-env": "^7.0.2",
     "jest": "^26.0.1",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
-=======
-    "jest": "^26.0.1",
-    "nodemon": "^2.0.4"
->>>>>>> a5ae9dc2ec16f7be8f52a98cf776907631005555
   }
 }
