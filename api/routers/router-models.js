@@ -1,24 +1,5 @@
 const db = require('../../data/dbconfig');
 
-module.exports = {
-	getAdmin,
-	getAdminByID,
-	getAdminTasks,
-	getTasks,
-	getTasksById,
-	getVolunteer,
-	getVolunteerById,
-	getVolunteerTasks,
-	addAdmin,
-	addTask,
-	addVolunteer,
-	removeVolunteer,
-	removeTasks,
-	addStudent,
-	getStudent,
-	getStudentById,
-	removeStudent
-};
 
 function getAdmin() {
 	return db("admin");
@@ -34,6 +15,7 @@ function getAdminBy(filter){
 function getTasks() {
 	return db("tasks");
 }
+
 function getAdminTasks(id) {
 	return db("tasks as t")
 		.join("admin as a", "a.id", "t.admin_id")
@@ -76,6 +58,15 @@ function addTask(insert) {
 	return db("tasks")
 		.insert(insert)
 		.then((id) => getTasksById(id[0]));
+
+}
+function asignTasks(insert) {
+	return db("volunteer_tasks")
+		.insert(insert)
+		.then((id) => getId(id[0]));
+}
+function getId(id){
+	return db("volunteer_tasks").where({ id }).first();
 }
 
 function addVolunteer(insert) {
@@ -128,10 +119,12 @@ module.exports = {
 	addTask,
 	addVolunteer,
 	removeVolunteer,
-    removeTasks,
-    addStudent,
-    getStudent,
-    getStudentById,
+	removeTasks,
+	addStudent,
+	getStudent,
+	getStudentById,
 	removeStudent,
-	getStudentBy
+	getStudentBy,
+	asignTasks,
+	getId
 };
