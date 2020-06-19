@@ -1,5 +1,24 @@
 const db = require('../../data/dbconfig');
 
+module.exports = {
+	getAdmin,
+	getAdminByID,
+	getAdminTasks,
+	getTasks,
+	getTasksById,
+	getVolunteer,
+	getVolunteerById,
+	getVolunteerTasks,
+	addAdmin,
+	addTask,
+	addVolunteer,
+	removeVolunteer,
+	removeTasks,
+	addStudent,
+	getStudent,
+	getStudentById,
+	removeStudent
+};
 
 function getAdmin() {
 	return db("admin");
@@ -28,7 +47,7 @@ function getVolunteer() {
 }
 function getVolunteerTasks(id) {
 	return db("volunteer as v")
-		.join("volunteer_tasks as vt", "vt.resource_id", "v.id")
+		.join("volunteer_tasks as vt", "vt.volunteer_id", "v.id")
 		.join("tasks as t", "t.id", "vt.volunteer_id")
 		.select("t.description", "t.completed")
 		.where("v.id", id);
@@ -40,20 +59,20 @@ function getVolunteerById(id) {
 
 function addAdmin(insert) {
 	return db("admin")
-		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.insert(insert).returning('id')
+		.then((id) => getAdminByID(id[0]));
 }
 
 function addTask(insert) {
 	return db("tasks")
 		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.then((id) => getTasksById(id[0]));
 }
 
 function addVolunteer(insert) {
 	return db("volunteer")
 		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.then((id) => getVolunteerById(id[0]));
 }
 
 function removeVolunteer(id) {
@@ -81,22 +100,3 @@ function getStudent() {
 }
 
 
-module.exports = {
-	getAdmin,
-	getAdminByID,
-	getAdminTasks,
-	getTasks,
-	getTasksById,
-	getVolunteer,
-	getVolunteerById,
-	getVolunteerTasks,
-	addAdmin,
-	addTask,
-	addVolunteer,
-	removeVolunteer,
-    removeTasks,
-    addStudent,
-    getStudent,
-    getStudentById,
-    removeStudent
-};

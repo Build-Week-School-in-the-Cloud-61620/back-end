@@ -15,7 +15,6 @@ exports.up = function (knex) {
 			tbl.string("email", 128).notNullable().unique();
 			tbl.string("role", 128).notNullable();
 			tbl.string("location", 128).notNullable();
-			tbl.string("time", 128).notNullable();
 			tbl.string("password", 255).notNullable();
 		})
 		.createTable("student", (tbl) => {
@@ -76,7 +75,7 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
 	return knex.schema
-		.dropTableIfExists("volunteerID")
+		.dropTableIfExists("time")
 		.dropTableIfExists("volunteer_tasks")
 		.dropTableIfExists("tasks")
 		.dropTableIfExists("student")

@@ -1,5 +1,48 @@
 const router = require('express').Router();
 const restricted = require('../../auth/auth-middleware');
+const db = require('./router-models');
 
 
+router.get("/", (req, res) => {
+	db.getVolunteer()
+		.then((get) => {
+			res.status(200).json(get);
+		})
+		.catch((err) => {
+			res.status(500).json(err);
+		});
+});
+
+router.get("/:id", (req, res) => {
+	const { id } = req.params;
+	db.getVolunteerById(id)
+		.then((get) => {
+			res.status(200).json(get);
+		})
+		.catch((err) => {
+			res.status(500).json(err.message);
+		});
+});
+
+router.get("/:id/tasks", (req, res) => {
+	const { id } = req.params;
+	db.getVolunteerTasks(id)
+		.then((get) => {
+			res.status(201).json(get);
+		})
+		.catch((err) => {
+			res.status(500).json(err.message);
+		});
+});
+
+router.post("/", (req, res) => {
+	const { body } = req;
+	db.addVolunteer(body)
+		.then((post) => {
+			res.status(201).json(post);
+		})
+		.catch((err) => {
+			res.status(500).json(err.message);
+		});
+});
 module.exports = router;

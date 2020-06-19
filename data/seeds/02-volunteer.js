@@ -8,7 +8,6 @@ exports.seed = function (knex) {
 			email: "lea@cloudschool.com",
 			role: "volunteer",
 			location: "earth",
-			time: "mon-sat 9 to 5",
 			password: "password to be hashed",
 		},
 	]);
