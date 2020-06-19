@@ -6,6 +6,18 @@ const secret = require('../../config/secrets');
 
 const {isValid} = require('./valid-check');
 
+//auth endpoints
+
+router.post('/register', (req,res)=>{
+
+})
+
+router.post('/login', (req,res)=>{
+    
+})
+
+
+
 //token generation on login
 function generateToken(user){
     const payload = {
