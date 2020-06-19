@@ -5,35 +5,35 @@ const jwt = require('jsonwebtoken');
 const secret = require('../config/secrets');
 
 const {isValid} = require('./valid-check');
-const Admin = require('../api/routers/admin-model');
-const Student = require('../api/routers/student-model');
-const Volunteer = require('../api/routers/volunteer-model');
-
+// const Admin = require('../api/routers/admin-model');
+// const Student = require('../api/routers/student-model');
+// const Volunteer = require('../api/routers/volunteer-model');
+const db = require('../api/routers/router-models');
 //auth endpoints
 
 router.post('/register', (req,res)=>{
     const creds = req.body;
-    if({isValid(creds)}){
+    if(isValid(creds)){
         const rounds = process.env.BCRYPT_ROUNDS || 8;
         const hash = bcrypt.hashSync(creds.password, rounds);
         creds.password = hash;
 
         if(creds.role == 'admin'){
-            Admin.add(creds)
+            db.addAdmin(creds)
             .then(admin =>{
                 res.status(201).json({data:admin})
             })
             .catch(err => res.status(500).json({message:'error in adding admin to database', reason:err.message}))
         }
         if(creds.role == 'student'){
-            Student.add(creds)
+            db.addStudent(creds)
             .then(student =>{
                 res.status(201).json({data:student})
             })
             .catch(err => res.status(500).json({message:'error in adding student to database', reason:err.message}))
         }
         if(creds.role == 'volunteer'){
-            Volunteer.add(creds)
+            db.addVolunteer(creds)
             .then(volunteer =>{
                 res.status(201).json({data:volunteer})
             })
@@ -47,10 +47,10 @@ router.post('/register', (req,res)=>{
 })
 
 router.post('/login', (req,res)=>{
-
-    const {username, password} = req.body;
-    if(isValid(req.body) && req.body.role == 'admin'){
-        Admin.findBy({username:username})
+console.log('req.body in auth router login',req.body)
+    const {username, password, role} = req.body;
+    if(isValid(req.body) && role == 'admin'){
+        db.getAdminBy({username:username})
         .then(([admin])=>{
             if(admin && bcrypt.compareSync(password, admin.password)){
                 const token = generateToken(admin);
@@ -62,7 +62,7 @@ router.post('/login', (req,res)=>{
         })
     }
     if(isValid(req.body) && req.body.role == 'student'){
-        Student.findBy({username:username})
+        db.getStudentBy({username:username})
         .then(([student])=>{
             if(student && bcrypt.compareSync(password, student.password)){
                 const token = generateToken(student);
@@ -74,7 +74,7 @@ router.post('/login', (req,res)=>{
         })
     }
     if(isValid(req.body) && req.body.role == 'volunteer'){
-        Volunteer.findBy({username:username})
+        db.getVolunteerBy({username:username})
         .then(([volunteer])=>{
             const token = generateToken(volunteer);
             res.status(200).json({message:`welcome ${volunteer.username}`,token})

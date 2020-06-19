@@ -8,6 +8,9 @@ function getAdmin() {
 function getAdminByID(id) {
 	return db("admin").where({ id }).first();
 }
+function getAdminBy(filter){
+	return db('admin').where(filter).orderBy('id')
+}
 
 function getTasks() {
 	return db("tasks");
@@ -38,10 +41,16 @@ function getVolunteerById(id) {
 	return db("volunteer").where({ id }).first();
 }
 
-function addAdmin(insert) {
-	return db("admin")
-		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+function getVolunteerBy(filter){
+	return db('volunteer').where(filter).orderBy('id')
+}
+
+async function addAdmin(insert) {
+	try{
+		const [id] = await db("admin").insert(insert, "id");
+		return getAdminByID(id)
+	}catch(err){throw err;}
+		
 }
 
 function addTask(insert) {
@@ -73,6 +82,10 @@ function addStudent(insert) {
 function getStudentById(id) {
 	return db("student").where({ id }).first();
 }
+
+function getStudentBy(filter){
+	return db('student').where(filter).orderBy('id')
+}
 function removeStudent(id) {
 	return db("student").where("id", id).del();
 }
@@ -84,11 +97,13 @@ function getStudent() {
 module.exports = {
 	getAdmin,
 	getAdminByID,
+	getAdminBy,
 	getAdminTasks,
 	getTasks,
 	getTasksById,
 	getVolunteer,
 	getVolunteerById,
+	getVolunteerBy,
 	getVolunteerTasks,
 	addAdmin,
 	addTask,
@@ -98,5 +113,6 @@ module.exports = {
     addStudent,
     getStudent,
     getStudentById,
-    removeStudent
+	removeStudent,
+	getStudentBy
 };

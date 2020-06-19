@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const Admin = require('./admin-model');
 const restricted = require('../../auth/auth-middleware');
-const db = require('./router-models')
+const db = require('./router-models');
 
-<<<<<<< HEAD
 router.get('/', restricted, (req,res)=>{
-    Admin.find()
+    db.getAdmin()
     .then(admin =>{
         res.status(200).json(admin)
     })
@@ -14,12 +13,13 @@ router.get('/', restricted, (req,res)=>{
 
 router.get('/:id', restricted, (req,res)=>{
     const {id} = req.params;
-    Admin.findById(id)
+    db.getAdminByID(id)
     .then(admin=>{
         res.status(200).json(admin)
     })
 })
-=======
+
+
 router.get("/", (req, res) => {
 	db.getAdmin()
 		.then((get) => {
@@ -39,6 +39,5 @@ router.get("/:id", (req, res) => {
 			res.status(500).json(err);
 		});
 });
->>>>>>> 1a081fcaebb8d01b5278f905891326ca70699627
 
 module.exports = router;
