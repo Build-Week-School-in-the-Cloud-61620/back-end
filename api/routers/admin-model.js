@@ -4,7 +4,8 @@ module.exports ={
     add,
     find,
     findBy,
-    findById
+    findById,
+    addTask
 }
 
 
@@ -27,4 +28,11 @@ async function add(admin) {
     }catch(err){
         throw error;
     }
+}
+
+function addTask(newTask, id){
+    return db('admin')
+    .join('tasks', 'tasks.id','tasks.admin_id' )
+    .insert(newTask)
+    .where({admin_id:id})
 }

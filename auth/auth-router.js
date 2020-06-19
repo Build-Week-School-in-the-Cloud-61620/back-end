@@ -61,7 +61,7 @@ console.log('req.body in auth router login',req.body)
             res.status(500).json({message:'error in logging into server', reason: err.messasge})
         })
     }
-    if(isValid(req.body) && req.body.role == 'student'){
+    if(isValid(req.body) && role == 'student'){
         db.getStudentBy({username:username})
         .then(([student])=>{
             if(student && bcrypt.compareSync(password, student.password)){
@@ -73,7 +73,7 @@ console.log('req.body in auth router login',req.body)
             res.status(500).json({message:'error logging into server', reason:err.message})
         })
     }
-    if(isValid(req.body) && req.body.role == 'volunteer'){
+    if(isValid(req.body) && role == 'volunteer'){
         db.getVolunteerBy({username:username})
         .then(([volunteer])=>{
             const token = generateToken(volunteer);
