@@ -15,6 +15,7 @@ function getAdminBy(filter){
 function getTasks() {
 	return db("tasks");
 }
+
 function getAdminTasks(id) {
 	return db("tasks as t")
 		.join("admin as a", "a.id", "t.admin_id")
@@ -31,7 +32,7 @@ function getVolunteer() {
 }
 function getVolunteerTasks(id) {
 	return db("volunteer as v")
-		.join("volunteer_tasks as vt", "vt.resource_id", "v.id")
+		.join("volunteer_tasks as vt", "vt.volunteer_id", "v.id")
 		.join("tasks as t", "t.id", "vt.volunteer_id")
 		.select("t.description", "t.completed")
 		.where("v.id", id);
@@ -56,13 +57,22 @@ async function addAdmin(insert) {
 function addTask(insert) {
 	return db("tasks")
 		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.then((id) => getTasksById(id[0]));
+
+}
+function asignTasks(insert) {
+	return db("volunteer_tasks")
+		.insert(insert)
+		.then((id) => getId(id[0]));
+}
+function getId(id){
+	return db("volunteer_tasks").where({ id }).first();
 }
 
 function addVolunteer(insert) {
 	return db("volunteer")
 		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.then((id) => getVolunteerById(id[0]));
 }
 
 function removeVolunteer(id) {
@@ -76,7 +86,7 @@ function removeTasks(id) {
 function addStudent(insert) {
 	return db("student")
 		.insert(insert)
-		.then((id) => getProjectsById(id[0]));
+		.then((id) => getStudentById(id[0]));
 }
 
 function getStudentById(id) {
@@ -109,10 +119,12 @@ module.exports = {
 	addTask,
 	addVolunteer,
 	removeVolunteer,
-    removeTasks,
-    addStudent,
-    getStudent,
-    getStudentById,
+	removeTasks,
+	addStudent,
+	getStudent,
+	getStudentById,
 	removeStudent,
-	getStudentBy
+	getStudentBy,
+	asignTasks,
+	getId
 };
