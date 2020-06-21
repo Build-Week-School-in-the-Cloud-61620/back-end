@@ -47,7 +47,7 @@ router.post('/register', (req,res)=>{
 })
 
 router.post('/login', (req,res)=>{
-// console.log('req.body in auth router login',req.body)
+
     const creds = req.body;
     
     if(isValid(creds) && creds.role == 'admin'){
@@ -75,7 +75,7 @@ router.post('/login', (req,res)=>{
         })
     }else
     if(isValid(creds) && creds.role == 'volunteer'){
-        console.log('creds.username',creds.username)
+        
         db.getVolunteerBy({username:creds.username})
         .then(([volunteer])=>{
                 if(volunteer && bcrypt.compareSync(creds.password, volunteer.password)){

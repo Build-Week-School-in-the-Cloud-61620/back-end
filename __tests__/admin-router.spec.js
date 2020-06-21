@@ -6,3 +6,12 @@ describe('true',()=>{
         expect(true).toBe(true);
     })
 });
+describe('admin router',()=>{
+    describe('register',()=>{
+        it('should return 201 on correct admin register',async ()=>{
+            const admin = {username:'admin1', name:'admin1', role:'admin', password:'password', email:'admin1@email.com'}
+            const res = await request(server).post('/api/auth/register').send(admin);
+            expect(res.status).toBe(201);
+        })
+    })
+})

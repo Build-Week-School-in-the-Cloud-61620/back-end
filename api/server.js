@@ -19,7 +19,7 @@ server.use(cors());
 //router calls
 server.use('/api/auth', authRouter);
 server.use('/api/admin', adminRouter);
-server.use('/api/students', studentRouter);
+server.use('/api/student', studentRouter);
 server.use('/api/volunteer', volunteerRouter);
 
 //get on server
