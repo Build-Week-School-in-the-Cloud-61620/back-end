@@ -46,68 +46,65 @@ router.post('/register', (req,res)=>{
 
 })
 
-router.post("/login", (req, res) => {
-	const { username, password } = req.body;
-	if (req.body) {
-		db.getAdminBy({ username: username })
-			.then(([user]) => {
-				if (user && bcrypt.compareSync(password, user.password)) {
-					const token = generateToken(user);
-					res.status(200).json({ message: "welcome", token });
-				} else {
-					res.status(401).json({ message: "Invalid credentials" });
-				}
-			})
-			.catch((error) => {
-				res.status(500).json({ message: error.message });
-			});
-	} else {
-		res.status(400).json({
-			message: "please provide proper credentials",
-		});
-	}
-});
+// router.post("/login", (req, res) => {
+// 	const { username, password } = req.body;
+// 	if (req.body) {
+// 		db.getAdminBy({ username: username })
+// 			.then(([user]) => {
+// 				if (user && bcrypt.compareSync(password, user.password)) {
+// 					const token = generateToken(user);
+// 					res.status(200).json({ message: "welcome", token });
+// 				} else {
+// 					res.status(401).json({ message: "Invalid credentials" });
+// 				}
+// 			})
+// 			.catch((error) => {
+// 				res.status(500).json({ message: error.message });
+// 			});
+// 	} else {
+// 		res.status(400).json({
+// 			message: "please provide proper credentials",
+// 		});
+// 	}
+// });
 
-// router.post('/login', (req,res)=>{
-//     const {username, password} = req.body;
-//     if(isValid(req.body)){
-//         console.log(username)
-//         db.getAdminBy({username:username})
-//         .then(([admin])=>{
-//             if(admin && bcrypt.compareSync(password, admin.password)){
-//                 const token = generateToken(admin);
-//                 res.status(200).json({message: `welcome ${admin.username}`,token})
-//             }else{res.status(401).json({mesasge:'invalid credentials'})}
-//         })
-//         .catch(err=>{
-//             res.status(500).json({message:'error in logging into server', reason: err.messasge})
-//         })
-//     }
-//     if(isValid(req.body) && role == 'student'){
-//         db.getStudentBy({username:username})
-//         .then(([student])=>{
-//             if(student && bcrypt.compareSync(password, student.password)){
-//                 const token = generateToken(student);
-//                 res.status(200).json({messasge:`welcome ${student.username}`,token})
-//             }else{res.status(401).json({message:'invalid credentials'})}
-//         })
-//         .catch(err =>{
-//             res.status(500).json({message:'error logging into server', reason:err.message})
-//         })
-//     }
-//     if(isValid(req.body) && role == 'volunteer'){
-//         db.getVolunteerBy({username:username})
-//         .then(([volunteer])=>{
-//             const token = generateToken(volunteer);
-//             res.status(200).json({message:`welcome ${volunteer.username}`,token})
-//         })
-//         .catch(err =>{
-//             res.status(500).json({message:'error in logging into server', reason:err.message})
-//         })
-//     }else{
-//         res.status(400).json({message:'invalid username or password'})
-//     }
-// })
+router.post('/login', (req,res)=>{
+    const {username, password, role} = req.body;
+    if(isValid(req.body) && role === 'admin'){
+        db.getAdminBy({username:username})
+        .then(([user])=>{
+            if(user && bcrypt.compareSync(password, user.password)){
+                const token = generateToken(user);
+                res.status(200).json({message: `welcome ${user.username}`,token})
+            }else{res.status(401).json({mesasge:'invalid credentials'})}
+        })
+        .catch(err=>{
+            res.status(500).json({message:'error in logging into server', reason: err.messasge})
+        })
+    } else if(isValid(req.body) && role == 'student'){
+        db.getStudentBy({username:username})
+        .then(([student])=>{
+            if(student && bcrypt.compareSync(password, student.password)){
+                const token = generateToken(student);
+                res.status(200).json({messasge:`welcome ${student.username}`,token})
+            }else{res.status(401).json({message:'invalid credentials'})}
+        })
+        .catch(err =>{
+            res.status(500).json({message:'error logging into server', reason:err.message})
+        })
+    } else if(isValid(req.body) && role == 'volunteer'){
+        db.getVolunteerBy({username:username})
+        .then(([volunteer])=>{
+            const token = generateToken(volunteer);
+            res.status(200).json({message:`welcome ${volunteer.username}`,token})
+        })
+        .catch(err =>{
+            res.status(500).json({message:'error in logging into server', reason:err.message})
+        })
+    }else{
+        res.status(400).json({message:'invalid username or password'})
+    }
+})
 
 
 
