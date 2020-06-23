@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
 			if (err) {
 				res.status(401).json({ message: "valid token needed", reason: err.message });
 			} else {
-				req.decodedJwt = decodedToken;
+				req.decodedToken = decodedToken;
 
 				next();
 			}

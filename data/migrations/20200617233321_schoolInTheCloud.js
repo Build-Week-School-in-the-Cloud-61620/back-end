@@ -37,6 +37,9 @@ exports.up = function (knex) {
 				.inTable("admin")
 				.onDelete("RESTRICT")
 				.onUpdate("CASCADE");
+			
+			
+			
 		})
 		.createTable("volunteer_tasks", (tbl) => {
 			tbl.increments();
@@ -64,6 +67,7 @@ exports.up = function (knex) {
 			tbl.string("end", 8);
 			tbl
 				.integer("volunteerID")
+				.unique()
 				.unsigned()
 				.notNullable()
 				.references("id")

@@ -1,9 +1,7 @@
 const router = require("express").Router();
-const Admin = require("./admin-model");
-const restricted = require("../../auth/auth-middleware");
 const db = require("./router-models");
 
-router.get("/", restricted, (req, res) => {
+router.get("/", (req, res) => {
 	db.getAdmin()
 		.then((admin) => {
 			res.status(200).json(admin);
@@ -15,7 +13,7 @@ router.get("/", restricted, (req, res) => {
 		);
 });
 
-router.get("/:id", restricted, (req, res) => {
+router.get("/:id", (req, res) => {
 	const { id } = req.params;
 	db.getAdminByID(id).then((admin) => {
 		res.status(200).json(admin);
@@ -45,6 +43,7 @@ router.get("/:id", (req, res) => {
 
 router.get("/:id/tasks", (req, res) => {
 	const { id } = req.params;
+	console.log(req.decodedToken);
 	db.getAdminTasks(id)
 		.then((get) => {
 			res.status(201).json(get);
