@@ -108,11 +108,18 @@ function removeStudent(id) {
 function getStudent() {
 	return db("student");
 }
+function addTime(insert, id){
+	return db("time").where({volunteerID: id}).update(insert)
+}
+
+// db("users").where({ id }).update(changes);
+
 
 
 
 
 module.exports = {
+	addTime,
 	getTime,
 	getAdmin,
 	getAdminByID,

@@ -67,6 +67,7 @@ exports.up = function (knex) {
 			tbl.string("end", 8);
 			tbl
 				.integer("volunteerID")
+				.unique()
 				.unsigned()
 				.notNullable()
 				.references("id")

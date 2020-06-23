@@ -47,14 +47,16 @@ router.get("/:id/tasks", (req, res) => {
 		});
 });
 
-router.post("/", (req, res) => {
-	const { body } = req;
-	db.addVolunteer(body)
-		.then((post) => {
-			res.status(201).json(post);
+router.put('/:id/time', (req, res) => {
+	const {id} = req.params;
+	const times = req.body
+	db.addTime({ ...times, volunteerID: id }, id)
+		.then((get) => {
+			res.status(201).json(get);
 		})
 		.catch((err) => {
 			res.status(500).json(err.message);
 		});
-});
+})
+
 module.exports = router;
