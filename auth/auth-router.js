@@ -5,9 +5,7 @@ const jwt = require('jsonwebtoken');
 const secret = require('../config/secrets');
 
 const {isValid} = require('./valid-check');
-// const Admin = require('../api/routers/admin-model');
-// const Student = require('../api/routers/student-model');
-// const Volunteer = require('../api/routers/volunteer-model');
+
 const db = require('../api/routers/router-models');
 //auth endpoints
 
@@ -46,24 +44,22 @@ router.post('/register', (req,res)=>{
 
 })
 
-router.post('/login', (req,res)=>{
 
-    const creds = req.body;
-    
-    if(isValid(creds) && creds.role == 'admin'){
-        db.getAdminBy({username:creds.username})
-        .then(([admin])=>{
-            if(admin && bcrypt.compareSync(creds.password, admin.password)){
-                const token = generateToken(admin);
-                res.status(200).json({message: `welcome ${admin.username}`,token})
+router.post('/login', (req,res)=>{
+    const {username, password, role} = req.body;
+    if(isValid(req.body) && role === 'admin'){
+        db.getAdminBy({username:username})
+        .then(([user])=>{
+            if(user && bcrypt.compareSync(password, user.password)){
+                const token = generateToken(user);
+                res.status(200).json({message: `welcome ${user.username}`,token})
             }else{res.status(401).json({mesasge:'invalid credentials'})}
         })
         .catch(err=>{
             res.status(500).json({message:'error in logging into server', reason: err.messasge})
         })
-    }else
-    if(isValid(creds) && creds.role == 'student'){
-        db.getStudentBy({username:creds.username})
+    } else if(isValid(req.body) && role == 'student'){
+        db.getStudentBy({username:username})
         .then(([student])=>{
             if(student && bcrypt.compareSync(creds.password, student.password)){
                 const token = generateToken(student);
@@ -73,10 +69,8 @@ router.post('/login', (req,res)=>{
         .catch(err =>{
             res.status(500).json({message:'error logging into server', reason:err.message})
         })
-    }else
-    if(isValid(creds) && creds.role == 'volunteer'){
-        
-        db.getVolunteerBy({username:creds.username})
+    } else if(isValid(req.body) && role == 'volunteer'){
+        db.getVolunteerBy({username:username})
         .then(([volunteer])=>{
                 if(volunteer && bcrypt.compareSync(creds.password, volunteer.password)){
                     const token = generateToken(volunteer);
