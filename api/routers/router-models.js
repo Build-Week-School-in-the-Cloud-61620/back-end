@@ -37,6 +37,12 @@ function getVolunteerTasks(id) {
 		.select("t.description", "t.completed")
 		.where("v.id", id);
 }
+function getTime(id) {
+	return db("volunteer as v")
+	.join("time as t", "t.volunteerID", "v.id")
+	.select('t.day', 't.start', 't.end')
+	.where('v.id', id)
+}
 
 function getVolunteerById(id) {
 	return db("volunteer").where({ id }).first();
@@ -104,7 +110,10 @@ function getStudent() {
 }
 
 
+
+
 module.exports = {
+	getTime,
 	getAdmin,
 	getAdminByID,
 	getAdminBy,

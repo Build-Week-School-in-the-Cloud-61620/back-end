@@ -16,8 +16,20 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
 	const { id } = req.params;
 	db.getVolunteerById(id)
-		.then((get) => {
-			res.status(200).json(get);
+		.then((volunteer) => {
+			db.getVolunteerTasks(volunteer.id)
+				.then((tasks) => {
+					db.getTime(volunteer.id)
+						.then((time) => {
+							res.status(200).json({volunteer, time, tasks});
+						})
+						.catch((err) => {
+							res.status(500).json(err);
+						});
+				})
+				.catch((err) => {
+					res.status(500).status(err);
+				});
 		})
 		.catch((err) => {
 			res.status(500).json(err.message);

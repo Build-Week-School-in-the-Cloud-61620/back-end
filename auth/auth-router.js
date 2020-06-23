@@ -81,7 +81,7 @@ router.post('/login', (req,res)=>{
         .catch(err=>{
             res.status(500).json({message:'error in logging into server', reason: err.messasge})
         })
-    } else if(isValid(req.body) && role == 'student'){
+    } else if(isValid(req.body) && role === 'student'){
         db.getStudentBy({username:username})
         .then(([student])=>{
             if(student && bcrypt.compareSync(password, student.password)){
@@ -92,7 +92,7 @@ router.post('/login', (req,res)=>{
         .catch(err =>{
             res.status(500).json({message:'error logging into server', reason:err.message})
         })
-    } else if(isValid(req.body) && role == 'volunteer'){
+    } else if(isValid(req.body) && role === 'volunteer'){
         db.getVolunteerBy({username:username})
         .then(([volunteer])=>{
             const token = generateToken(volunteer);
