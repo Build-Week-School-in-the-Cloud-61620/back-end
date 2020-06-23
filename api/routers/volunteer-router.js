@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const restricted = require('../../auth/auth-middleware');
 const db = require('./router-models');
 
 

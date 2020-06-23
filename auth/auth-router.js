@@ -5,11 +5,9 @@ const jwt = require('jsonwebtoken');
 const secret = require('../config/secrets');
 
 const {isValid} = require('./valid-check');
-// const Admin = require('../api/routers/admin-model');
-// const Student = require('../api/routers/student-model');
-// const Volunteer = require('../api/routers/volunteer-model');
+
 const db = require('../api/routers/router-models');
-//auth endpoints
+
 
 router.post('/register', (req,res)=>{
     const creds = req.body;
@@ -46,27 +44,7 @@ router.post('/register', (req,res)=>{
 
 })
 
-// router.post("/login", (req, res) => {
-// 	const { username, password } = req.body;
-// 	if (req.body) {
-// 		db.getAdminBy({ username: username })
-// 			.then(([user]) => {
-// 				if (user && bcrypt.compareSync(password, user.password)) {
-// 					const token = generateToken(user);
-// 					res.status(200).json({ message: "welcome", token });
-// 				} else {
-// 					res.status(401).json({ message: "Invalid credentials" });
-// 				}
-// 			})
-// 			.catch((error) => {
-// 				res.status(500).json({ message: error.message });
-// 			});
-// 	} else {
-// 		res.status(400).json({
-// 			message: "please provide proper credentials",
-// 		});
-// 	}
-// });
+
 
 router.post('/login', (req,res)=>{
     const {username, password, role} = req.body;
