@@ -1,130 +1,139 @@
-const db = require('../../data/dbconfig');
+const db = require('../../data/dbconfig')
 
-
-function getAdmin() {
-	return db("admin");
-}
-
-function getAdminByID(id) {
-	return db("admin").where({ id }).first();
-}
-function getAdminBy(filter){
-	return db('admin').where(filter).orderBy('id')
+function getAdmin () {
+  return db('admin')
 }
 
-function getTasks() {
-	return db("tasks");
+function getAdminByID (id) {
+  return db('admin').where({ id }).first()
+}
+function getAdminBy (filter) {
+  return db('admin').where(filter).orderBy('id')
 }
 
-function getAdminTasks(id) {
-	return db("tasks as t")
-		.join("admin as a", "a.id", "t.admin_id")
-		.select("t.id", "t.description", "t.completed")
-		.where("t.admin_id", id);
+function getTasks () {
+  return db('tasks')
 }
 
-function getTasksById(id) {
-	return db("tasks").where({ id }).first();
+function getAdminTasks (id) {
+  return db('tasks as t')
+    .join('admin as a', 'a.id', 't.admin_id')
+    .select('t.id', 't.description', 't.completed')
+    .where('t.admin_id', id)
 }
 
-function getVolunteer() {
-	return db("Volunteer");
-}
-function getVolunteerTasks(id) {
-	return db("volunteer as v")
-		.join("volunteer_tasks as vt", "vt.volunteer_id", "v.id")
-		.join("tasks as t", "t.id", "vt.volunteer_id")
-		.select("t.description", "t.completed")
-		.where("v.id", id);
+function getTasksById (id) {
+  return db('tasks').where({ id }).first()
 }
 
-function getVolunteerById(id) {
-	return db("volunteer").where({ id }).first();
+function getVolunteer () {
+  return db('Volunteer')
+}
+function getVolunteerTasks (id) {
+  return db('volunteer as v')
+    .join('volunteer_tasks as vt', 'vt.volunteer_id', 'v.id')
+    .join('tasks as t', 't.id', 'vt.volunteer_id')
+    .select('t.description', 't.completed')
+    .where('v.id', id)
+}
+function getTime (id) {
+  return db('volunteer as v')
+    .join('time as t', 't.volunteerID', 'v.id')
+    .select('t.day', 't.start', 't.end')
+    .where('v.id', id)
 }
 
-function getVolunteerBy(filter){
-	return db('volunteer').where(filter).orderBy('id')
+function getVolunteerById (id) {
+  return db('volunteer').where({ id }).first()
 }
 
-async function addAdmin(insert) {
-	try{
-		const [id] = await db("admin").insert(insert, "id");
-		return getAdminByID(id)
-	}catch(err){throw err;}
-		
+function getVolunteerBy (filter) {
+  return db('volunteer').where(filter).orderBy('id')
 }
 
-function addTask(insert) {
-	return db("tasks")
-		.insert(insert)
-		.then((id) => getTasksById(id[0]));
-
-}
-function asignTasks(insert) {
-	return db("volunteer_tasks")
-		.insert(insert)
-		.then((id) => getId(id[0]));
-}
-function getId(id){
-	return db("volunteer_tasks").where({ id }).first();
+async function addAdmin (insert) {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const [id] = await db('admin').insert(insert, 'id')
+    return getAdminByID(id)
+  } catch (err) { throw err }
 }
 
-function addVolunteer(insert) {
-	return db("volunteer")
-		.insert(insert)
-		.then((id) => getVolunteerById(id[0]));
+function addTask (insert) {
+  return db('tasks')
+    .insert(insert)
+    .then((id) => getTasksById(id[0]))
+}
+function asignTasks (insert) {
+  return db('volunteer_tasks')
+    .insert(insert)
+    .then((id) => getId(id[0]))
+}
+function getId (id) {
+  return db('volunteer_tasks').where({ id }).first()
 }
 
-function removeVolunteer(id) {
-	return db("volunteer").where("id", id).del();
+function addVolunteer (insert) {
+  return db('volunteer')
+    .insert(insert)
+    .then((id) => getVolunteerById(id[0]))
 }
 
-function removeTasks(id) {
-    return db("tasks").where("id", id).del();
+function removeVolunteer (id) {
+  return db('volunteer').where('id', id).del()
 }
 
-function addStudent(insert) {
-	return db("student")
-		.insert(insert)
-		.then((id) => getStudentById(id[0]));
+function removeTasks (id) {
+  return db('tasks').where('id', id).del()
 }
 
-function getStudentById(id) {
-	return db("student").where({ id }).first();
+function addStudent (insert) {
+  return db('student')
+    .insert(insert)
+    .then((id) => getStudentById(id[0]))
 }
 
-function getStudentBy(filter){
-	return db('student').where(filter).orderBy('id')
+function getStudentById (id) {
+  return db('student').where({ id }).first()
 }
-function removeStudent(id) {
-	return db("student").where("id", id).del();
+
+function getStudentBy (filter) {
+  return db('student').where(filter).orderBy('id')
 }
-function getStudent() {
-	return db("student");
+function removeStudent (id) {
+  return db('student').where('id', id).del()
+}
+function getStudent () {
+  return db('student')
+}
+function addTime (insert, id) {
+  return db('time').where({ volunteerID: id }).update(insert)
 }
 
 
 module.exports = {
-	getAdmin,
-	getAdminByID,
-	getAdminBy,
-	getAdminTasks,
-	getTasks,
-	getTasksById,
-	getVolunteer,
-	getVolunteerById,
-	getVolunteerBy,
-	getVolunteerTasks,
-	addAdmin,
-	addTask,
-	addVolunteer,
-	removeVolunteer,
-	removeTasks,
-	addStudent,
-	getStudent,
-	getStudentById,
-	removeStudent,
-	getStudentBy,
-	asignTasks,
-	getId
-};
+  addTime,
+  getTime,
+  getAdmin,
+  getAdminByID,
+  getAdminBy,
+  getAdminTasks,
+  getTasks,
+  getTasksById,
+  getVolunteer,
+  getVolunteerById,
+  getVolunteerBy,
+  getVolunteerTasks,
+  addAdmin,
+  addTask,
+  addVolunteer,
+  removeVolunteer,
+  removeTasks,
+  addStudent,
+  getStudent,
+  getStudentById,
+  removeStudent,
+  getStudentBy,
+  asignTasks,
+  getId
+}
