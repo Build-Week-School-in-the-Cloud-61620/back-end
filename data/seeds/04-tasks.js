@@ -1,11 +1,10 @@
-exports.seed = function ( knex )
-{
+exports.seed = function (knex) {
   // Deletes ALL existing entries
-  return knex( "tasks" ).insert( [
+  return knex('tasks').insert([
     {
-      description: "teach about programming",
+      description: 'teach about programming',
       completed: false,
-      admin_id: 1,
-    },
-  ] );
-};
+      admin_id: 1
+    }
+  ])
+}
