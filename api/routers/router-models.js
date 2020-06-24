@@ -17,9 +17,10 @@ function getTasks () {
 
 function getAdminTasks (id) {
   return db('tasks as t')
-    .join('admin as a', 'a.id', 't.admin_id')
-    .select('t.id', 't.description', 't.completed')
-    .where('t.admin_id', id)
+    .join('admin_tasks as at', 'at.tasks_id', 't.id')
+    .join('admin as a', 'a.id', 'at.admin_id')
+    .select('t.description', 't.completed')
+    .where('t.id', id)
 }
 
 function getTasksById (id) {
@@ -110,7 +111,17 @@ function addTime (insert, id) {
   return db('time').where({ volunteerID: id }).update(insert)
 }
 
+function updateTasks (insert, id) {
+  return db('tasks').where({ id }).update(insert)
+}
+
+function remove (id) {
+  return db('admin_tasks').where('tasks_id', id).del()
+}
+
 module.exports = {
+  remove,
+  updateTasks,
   addTime,
   getTime,
   getAdmin,
