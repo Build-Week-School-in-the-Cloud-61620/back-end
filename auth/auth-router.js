@@ -48,7 +48,7 @@ router.post('/login', (req, res) => {
       .then(([user]) => {
         if (user && bcrypt.compareSync(password, user.password)) {
           const token = generateToken(user)
-          res.status(200).json({ message: `welcome ${user.username}`, token })
+          res.status(200).json({ message: `welcome ${user.username}`, user, token })
         } else { res.status(401).json({ mesasge: 'invalid credentials' }) }
       })
       .catch(err => {
@@ -56,10 +56,10 @@ router.post('/login', (req, res) => {
       })
   } else if (isValid(req.body) && role === 'student') {
     db.getStudentBy({ username: username })
-      .then(([student]) => {
-        if (student && bcrypt.compareSync(password, student.password)) {
-          const token = generateToken(student)
-          res.status(200).json({ messasge: `welcome ${student.username}`, token })
+      .then(([user]) => {
+        if (user && bcrypt.compareSync(password, user.password)) {
+          const token = generateToken(user)
+          res.status(200).json({ messasge: `welcome ${user.username}`, user, token })
         } else { res.status(401).json({ message: 'invalid credentials' }) }
       })
       .catch(err => {
@@ -67,9 +67,9 @@ router.post('/login', (req, res) => {
       })
   } else if (isValid(req.body) && role === 'volunteer') {
     db.getVolunteerBy({ username: username })
-      .then(([volunteer]) => {
-        const token = generateToken(volunteer)
-        res.status(200).json({ message: `welcome ${volunteer.username}`, token })
+      .then(([user]) => {
+        const token = generateToken(user)
+        res.status(200).json({ message: `welcome ${user.username}`, user, token })
       })
       .catch(err => {
         res.status(500).json({ message: 'error in logging into server', reason: err.message })
