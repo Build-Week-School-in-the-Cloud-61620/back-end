@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const pgConnection = process.env.DATABASE_URL || 'postgresql://postgress@localhost/login'
 
 module.exports = {

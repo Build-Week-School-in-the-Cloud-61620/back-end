@@ -110,8 +110,15 @@ function addTime (insert, id) {
   return db('time').where({ volunteerID: id }).update(insert)
 }
 
-
+function updateTasks (insert, id) {
+  return db('tasks').where({ id }).update(insert)
+}
+function deleteTasks (id) {
+  return db('tasks').where('id', id).del()
+}
 module.exports = {
+  deleteTasks,
+  updateTasks,
   addTime,
   getTime,
   getAdmin,
