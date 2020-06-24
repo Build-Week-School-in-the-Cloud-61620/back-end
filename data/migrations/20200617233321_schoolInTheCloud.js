@@ -30,7 +30,7 @@ exports.up = function (knex) {
       tbl.text('description').notNullable()
       tbl.boolean('completed').notNullable().default(0)
     })
-    .createTable('admin_tasks', tbl => {
+    .createTable('admin_volunteer_tasks', (tbl) => {
       tbl.increments()
       tbl
         .integer('admin_id')
@@ -40,17 +40,6 @@ exports.up = function (knex) {
         .inTable('admin')
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
-      tbl
-        .integer('tasks_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('tasks')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE')
-    })
-    .createTable('volunteer_tasks', (tbl) => {
-      tbl.increments()
       tbl
         .integer('volunteer_id')
         .unsigned()
@@ -89,7 +78,6 @@ exports.down = function (knex) {
   return knex.schema
     .dropTableIfExists('time')
     .dropTableIfExists('volunteer_tasks')
-    .dropTableIfExists('admin_tasks')
     .dropTableIfExists('tasks')
     .dropTableIfExists('student')
     .dropTableIfExists('volunteer')
