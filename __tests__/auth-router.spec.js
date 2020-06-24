@@ -33,6 +33,9 @@ describe('auth-router', () => {
     beforeEach(async () => { await db('admin').truncate() })
     beforeEach(async () => { await db('student').truncate() })
     beforeEach(async () => { await db('volunteer').truncate() })
+
+    // testing admin login
+
     it('should return 200 on admin login success', async () => {
       const user = { username: 'admin1', name: 'admin1', role: 'admin', password: 'password', email: 'admin1@email.com' }
       const userLogin = { username: 'admin1', password: 'password', role: 'admin' }
@@ -54,6 +57,9 @@ describe('auth-router', () => {
       const res = await request(server).post('/api/auth/login').send(userLogin)
       expect(res.body).toHaveProperty('user')
     })
+
+    // testing student login
+
     it('should return 200 on student login success', async () => {
       const user = { username: 'student', name: 'student', role: 'student', password: 'password', email: 'student@email.com' }
       const userLogin = { username: 'student', password: 'password', role: 'student' }
@@ -75,6 +81,9 @@ describe('auth-router', () => {
       const res = await request(server).post('/api/auth/login').send(userLogin)
       expect(res.body).toHaveProperty('user')
     })
+
+    // testing volunteer login
+
     it('should return 200 on volunteer login success', async () => {
       const user = { username: 'volunteer', name: 'volunteer', role: 'volunteer', password: 'password', email: 'volunteer@email.com', location: 'here' }
       const userLogin = { username: 'volunteer', password: 'password', role: 'volunteer' }

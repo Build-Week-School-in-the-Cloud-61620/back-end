@@ -3,12 +3,6 @@ const request = require('supertest')
 const server = require('../api/server')
 const db = require('../data/dbconfig')
 
-// describe('true' () => {
-//     it ('should return true', () => {
-//         expect (true).toBe(true);
-//     })
-// });
-
 describe('admin router', () => {
   describe('testing env', () => {
     it('should set the esting env', () => {
