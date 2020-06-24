@@ -60,6 +60,28 @@ router.post('/:id/tasks/:volunteer_id', (req, res) => {
     })
 })
 
+router.put('/:id/tasks/', (req, res) => {
+  const { body } = req
+  const { id } = req.params
+  db.updateTasks(body, id)
+    .then(update => {
+      res.status(200).json(update)
+    }).catch(err => {
+      res.status(500).json(err)
+    })
+})
+
+router.delete('/:id/tasks/', (req, res) => {
+  const { id } = req.params
+  db.remove(id)
+    .then(del => {
+      res.status(200).json(del)
+    })
+    .catch(err => {
+      res.status(500).json({ failed: err.message })
+    })
+})
+
 // admin pervilaages
 
 router.get('/students', (req, res) => {
