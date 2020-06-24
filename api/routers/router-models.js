@@ -110,7 +110,6 @@ function addTime (insert, id) {
   return db('time').where({ volunteerID: id }).update(insert)
 }
 
-
 module.exports = {
   addTime,
   getTime,
