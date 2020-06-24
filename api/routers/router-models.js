@@ -17,9 +17,9 @@ function getTasks () {
 
 function getAdminTasks (id) {
   return db('tasks as t')
-    .join('admin_tasks as at', 'at.tasks_id', 't.id')
+    .join('admin_volunteer_tasks as at', 'at.tasks_id', 't.id')
     .join('admin as a', 'a.id', 'at.admin_id')
-    .select('t.description', 't.completed')
+    .select('t.id', 't.description', 't.completed')
     .where('t.id', id)
 }
 
@@ -32,9 +32,9 @@ function getVolunteer () {
 }
 function getVolunteerTasks (id) {
   return db('volunteer as v')
-    .join('volunteer_tasks as vt', 'vt.volunteer_id', 'v.id')
+    .join('admin_volunteer_tasks as vt', 'vt.volunteer_id', 'v.id')
     .join('tasks as t', 't.id', 'vt.volunteer_id')
-    .select('t.description', 't.completed')
+    .select('t.id', 't.description', 't.completed')
     .where('v.id', id)
 }
 function getTime (id) {
@@ -66,12 +66,13 @@ function addTask (insert) {
     .then((id) => getTasksById(id[0]))
 }
 function asignTasks (insert) {
-  return db('volunteer_tasks')
+  return db('admin_volunteer_tasks')
     .insert(insert)
     .then((id) => getId(id[0]))
 }
+
 function getId (id) {
-  return db('volunteer_tasks').where({ id }).first()
+  return db('admin_volunteer_tasks').where({ id }).first()
 }
 
 function addVolunteer (insert) {
@@ -116,10 +117,14 @@ function updateTasks (insert, id) {
 }
 
 function remove (id) {
-  return db('admin_tasks').where('tasks_id', id).del()
+  return db('admin_volunteer_tasks').where('tasks_id', id).del()
+}
+function removeVolunteerTask (id) {
+  return db('admin_volunteer_tasks').where('tasks_id', id).del()
 }
 
 module.exports = {
+  removeVolunteerTask,
   remove,
   updateTasks,
   addTime,
@@ -146,4 +151,5 @@ module.exports = {
   getStudentBy,
   asignTasks,
   getId
+
 }
