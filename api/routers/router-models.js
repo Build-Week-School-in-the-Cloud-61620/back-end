@@ -33,7 +33,7 @@ function getVolunteer () {
 function getVolunteerTasks (id) {
   return db('volunteer as v')
     .join('admin_volunteer_tasks as vt', 'vt.volunteer_id', 'v.id')
-    .join('tasks as t', 't.id', 'vt.volunteer_id')
+    .join('tasks as t', 't.id', 'vt.tasks_id')
     .select('t.id', 't.description', 't.completed')
     .where('v.id', id)
 }
