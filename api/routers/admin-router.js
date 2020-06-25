@@ -90,7 +90,7 @@ router.get('/students/all', (req, res) => {
     })
 })
 
-router.get('/volunteers/all', (req, res) => {
+router.get('/volunteer/all', (req, res) => {
   db.getVolunteer()
     .then((get) => {
       res.status(200).json(get)
@@ -100,7 +100,7 @@ router.get('/volunteers/all', (req, res) => {
     })
 })
 
-router.get('/volunteers/:id', (req, res) => {
+router.get('/volunteer/:id', (req, res) => {
   const { id } = req.params
   db.getVolunteerById(id)
     .then((get) => {
