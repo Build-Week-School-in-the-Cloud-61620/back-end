@@ -20,4 +20,10 @@ describe('volunteer-router', () => {
     const res = await request(server).get('/api/volunteer/1').set('authorization', loginRes.body.token)
     expect(res.status).toBe(200)
   })
+  it('returns status 200 on get tasks by id', async () => {
+    await request(server).post('/api/auth/register').send(newVolunteer)
+    const loginRes = await request(server).post('/api/auth/login').send(newVolunteerCreds)
+    const res = await (await request(server).get('/api/volunteer/1/tasks')).setEncoding('authorization', loginRes.body.token)
+    expect(res.status).toBe(201)
+  })
 })
