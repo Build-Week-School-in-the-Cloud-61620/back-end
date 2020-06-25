@@ -45,7 +45,7 @@ router.post('/:id/tasks/:volunteer_id', (req, res) => {
         admin_id: id
       })
         .then((posting) => {
-          res.status(200).json(post)
+          res.status(200).json({post, posting})
         })
         .catch((err) => {
           res.status(500).json(err.message)
