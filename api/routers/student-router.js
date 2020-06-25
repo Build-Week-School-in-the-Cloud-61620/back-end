@@ -22,7 +22,7 @@ router.get('/all', (req, res) => {
     })
 })
 
-router.get('/:id/volunteers', (req, res) => {
+router.get('/:id/volunteer', (req, res) => {
   db.getVolunteer()
     .then((volunteer) => {
       volunteer.map((volunteers) => {
