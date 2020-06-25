@@ -17,7 +17,7 @@ describe('admin router', () => {
     const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
     await request(server).post('/api/auth/register').send(admin)
     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
-    const res = await request(server).get('/api/admin').set('authorization', 'Bearer ' + loginRes.body.token)
+    const res = await request(server).get('/api/admin').set('authorization', loginRes.body.token)
     expect(res.status).toBe(200)
   })
 
@@ -26,35 +26,50 @@ describe('admin router', () => {
     const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
     await request(server).post('/api/auth/register').send(admin)
     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
-    const res = await request(server).get('/api/admin/1').set('authorization', 'Bearer ' + loginRes.body.token)
+    const res = await request(server).get('/api/admin/1').set('authorization', loginRes.body.token)
     expect(res.status).toBe(200)
   })
 
-  it('should return 201 on successful tasks get original', async () => {
+  it('should get all students with status 200', async () => {
     const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
     const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
     await request(server).post('/api/auth/register').send(admin)
     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
-    const res = await request(server).get('/api/admin/1/tasks').set('authorization', 'Bearer ' + loginRes.body.token)
+    const res = await request(server).get('/api/admin/students/all').set('authorization', loginRes.body.token)
+    expect(res.status).toBe(200)
+  })
+  it('should get all volunteers with status 200', async () => {
+    const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
+    const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
+    await request(server).post('/api/auth/register').send(admin)
+    const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
+    const res = await request(server).get('/api/admin/volunteer/all').set('authorization', loginRes.body.token)
+    expect(res.status).toBe(200)
+  })
+  it('should get volunteer by id with status 201', async () => {
+    const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
+    const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
+    await request(server).post('/api/auth/register').send(admin)
+    const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
+    const res = await request(server).get('/api/admin/volunteer/1').set('authorization', loginRes.body.token)
     expect(res.status).toBe(201)
   })
-
-  it('should return 201 on successful tasks get terse', async (login) => {
-    login()
-    const res = await request(server).get('/api/admin/1/tasks').set('authorization', 'Bearer ' + loginRes.body.token)
-    expect(res.status).toBe(201)
-  })
-
-
-  
+//   it('should get tasks by admin id with status 200', async () => {
+//     const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
+//     const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
+//     await request(server).post('/api/auth/register').send(admin)
+//     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
+//     const res = await request(server).get('/api/admin/1/tasks').set('authorization', loginRes.body.token)
+//     expect(res.status).toBe(200)
+//   })
+//   it('should return 201 on successful tasks get', async () => {
+//     const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
+//     const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
+//     await request(server).post('/api/auth/register').send(admin)
+//     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
+//     console.log(loginRes.body)
+//     const res = await request(server).get('/api/admin/1/tasks').set('authorization', 'Bearer ' + loginRes.body.token)
+//     console.log(res.body)
+//     expect(res.status).toBe(201)
+//   })
 })
-
-async function login () {
-  try {
-    const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
-    const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
-    await request(server).post('/api/auth/register').send(admin)
-    const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
-    return loginRes
-  } catch (err) { return err }
-}
