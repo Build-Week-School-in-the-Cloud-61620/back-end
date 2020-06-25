@@ -20,7 +20,7 @@ function getAdminTasks (id) {
     .join('admin_volunteer_tasks as at', 'at.tasks_id', 't.id')
     .join('admin as a', 'a.id', 'at.admin_id')
     .select('t.id', 't.description', 't.completed')
-    .where('t.id', id)
+    .where('at.admin_id', id)
 }
 
 function getTasksById (id) {
