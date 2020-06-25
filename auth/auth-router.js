@@ -89,7 +89,7 @@ function generateToken (user) {
   const options = {
     expiresIn: '2h'
   }
-  return jwt.sign(payload, secret.jwtSecret, options)
+  return 'Bearer ' + jwt.sign(payload, secret.jwtSecret, options)
 }
 
 module.exports = router
