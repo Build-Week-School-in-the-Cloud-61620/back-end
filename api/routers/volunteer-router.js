@@ -1,6 +1,16 @@
 const router = require('express').Router()
 const db = require('./router-models')
 
+router.get('/all', (req, res) => {
+  db.getVolunteer()
+    .then((get) => {
+      res.status(200).json(get)
+    })
+    .catch((err) => {
+      res.status(500).json(err)
+    })
+})
+
 router.get('/:id', (req, res) => {
   const { id } = req.params
   db.getVolunteerById(id)
@@ -44,6 +54,17 @@ router.put('/:id/time', (req, res) => {
     })
     .catch((err) => {
       res.status(500).json(err.message)
+    })
+})
+
+router.delete('/:id/tasks/', (req, res) => {
+  const { id } = req.params
+  db.removeVolunteerTask(id)
+    .then((del) => {
+      res.status(200).json(del)
+    })
+    .catch((err) => {
+      res.status(500).json({ failed: err.message })
     })
 })
 
