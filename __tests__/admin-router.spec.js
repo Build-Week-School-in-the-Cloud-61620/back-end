@@ -14,7 +14,7 @@ describe('admin router', () => {
 
   const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
   const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
-  
+
   it('sould return 200 on successful get', async () => {
     await request(server).post('/api/auth/register').send(admin)
     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
