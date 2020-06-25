@@ -48,12 +48,12 @@ describe('admin router', () => {
     expect(res.status).toBe(201)
   })
 // not working***** maybe issue with tables
-//   it('should get tasks by admin id with status 200', async () => {
-//     const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
-//     const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
-//     await request(server).post('/api/auth/register').send(admin)
-//     const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
-//     const res = await request(server).get('/api/admin/1/tasks').set('authorization', loginRes.body.token)
-//     expect(res.status).toBe(200)
-//   })
+  it('should get tasks by admin id with status 200', async () => {
+    const admin = { username: 'admin', name: 'admin', password: 'password', role: 'admin', email: 'admin@email.com' }
+    const adminCreds = { username: 'admin', password: 'password', role: 'admin' }
+    await request(server).post('/api/auth/register').send(admin)
+    const loginRes = await request(server).post('/api/auth/login').send(adminCreds)
+    const res = await request(server).get('/api/admin/1/tasks').set('authorization', loginRes.body.token)
+    expect(res.status).toBe(201)
+  })
 })
